@@ -1,0 +1,6 @@
+*.h5ad
+*.h5
+*.gz
+*.ipynb
+*.qmd
+*.txt
