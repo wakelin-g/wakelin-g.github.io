@@ -1,0 +1,434 @@
+---
+title: "NCB2017 Ligands and Receptors"
+author:
+    - name: "Griffen Wakelin"
+      id: "gw"
+      orcid: "0000-0001-9339-5387"
+      email: "wakelin@dal.ca"
+      affiliations:
+        - name: "Dalhousie University"
+          city: "Halifax"
+          state: "NS"
+          url: "https://www.dal.ca"
+date: "June 5, 2024"
+date-modified: "June 6, 2024"
+format:
+    html:
+        toc: true
+        code-fold: true
+        code-overflow: wrap
+        code-annotations: hover
+        link-external-newwindow: true
+        link-external-icon: true
+        smooth-scroll: true
+        embed-resources: true
+        theme: united
+        default-image-extension: svg
+execute:
+    enabled: true
+    cache: true
+    warning: false
+---
+
+```{r}
+#| echo: false
+
+library(tidyverse)
+library(ggpubr)
+library(DESeq2)
+
+receptors_db <- readxl::read_xlsx("~/Downloads/S2_file.xlsx", sheet=2)
+receptors_vec <- receptors_db$`ENTREZ gene symbol`
+
+receptors_db_2 <- readr::read_table("~/Downloads/mouse_lr_pair.txt")
+receptors_vec_2 <- receptors_db_2$receptor_gene_symbol
+ligands_vec_2 <- receptors_db_2$ligand_gene_symbol
+
+df <- readr::read_table("~/Downloads/ncb2017_raw_bulkrnaseq_counts.txt")
+df <- as.data.frame(df)
+rownames(df) <- df$Geneid
+df <- df %>% select(-c(Geneid, Chr, Start, End, Strand, Length))
+tmp <- colnames(df)
+tmp <- unname(sapply(tmp, function(x) strsplit(strsplit(x, "/")[[1]][[2]], "_")[[1]][[1]]))
+colnames(df) <- tmp
+meta <- readr::read_csv("~/Downloads/ncb2017_raw_bulkrnaseq_counts_meta.txt")
+
+#df <- df[,1:12]
+#meta <- meta[1:12,]
+
+dds <- DESeqDataSetFromMatrix(df, meta, ~condition)
+dds <- DESeq(dds)
+```
+
+
+## Ephrin A4 (*Epha4*)
+
+
+```{r}
+#| echo: false
+#| fig-height: 9
+
+gene <- "Epha4"
+
+res <- plotCounts(dds, gene, returnData=T)
+fresh <- res[res$condition %in% c("Pax7pos","Pax7neg","Tw2pos","Tw2neg"),]
+culture <- res[res$condition %in% c("Pax748h","Pax7GM", "Tw248h","Tw2GM"),]
+over <- res[res$condition %in% c("OverGFPDM", "OverGFPGM", "OverTw2DM", "OverTw2GM"),]
+
+p1 <- ggstripchart(culture, x="condition", y="count", ylab = "Normalized Expression") + rotate_x_text(45) + xlab("Cultured Cells") + ylim(c(0, max(culture$count) + 5))
+p1 <- ggpar(p1, legend = "none")
+
+p2 <- ggstripchart(fresh, x="condition", y="count", ylab = "Normalized Expression") + rotate_x_text(45) + xlab("Fresh-sorted Cells") + ylim(c(0, max(fresh$count) + 5))
+p2 <- ggpar(p2, legend = "none")
+
+p3 <- ggstripchart(over, x="condition", y="count", ylab="Normalized Expression") + rotate_x_text(45) + xlab("Overexpressing Cells") + ylim(c(0, max(over$count) + 5))
+p3 <- ggpar(p3, legend="none")
+
+figure <- ggarrange(p1, p2, p3, ncol=1, nrow=3)
+figure
+```
+
+
+## Neuropilin 2 (*Nrp2*)
+
+
+```{r}
+#| echo: false
+#| fig-height: 9
+
+gene <- "Nrp2"
+
+res <- plotCounts(dds, gene, returnData=T)
+fresh <- res[res$condition %in% c("Pax7pos","Pax7neg","Tw2pos","Tw2neg"),]
+culture <- res[res$condition %in% c("Pax748h","Pax7GM", "Tw248h","Tw2GM"),]
+over <- res[res$condition %in% c("OverGFPDM", "OverGFPGM", "OverTw2DM", "OverTw2GM"),]
+
+p1 <- ggstripchart(culture, x="condition", y="count", ylab = "Normalized Expression") + rotate_x_text(45) + xlab("Cultured Cells") + ylim(c(0, max(culture$count) + 5))
+p1 <- ggpar(p1, legend = "none")
+
+p2 <- ggstripchart(fresh, x="condition", y="count", ylab = "Normalized Expression") + rotate_x_text(45) + xlab("Fresh-sorted Cells") + ylim(c(0, max(fresh$count) + 5))
+p2 <- ggpar(p2, legend = "none")
+
+p3 <- ggstripchart(over, x="condition", y="count", ylab="Normalized Expression") + rotate_x_text(45) + xlab("Overexpressing Cells") + ylim(c(0, max(over$count) + 5))
+p3 <- ggpar(p3, legend="none")
+
+figure <- ggarrange(p1, p2, p3, ncol=1, nrow=3)
+figure
+```
+
+
+## Receptor Activity Modifying Protein 1 (*Ramp1*)
+
+
+```{r}
+#| echo: false
+#| fig-height: 9
+
+gene <- "Ramp1"
+
+res <- plotCounts(dds, gene, returnData=T)
+fresh <- res[res$condition %in% c("Pax7pos","Pax7neg","Tw2pos","Tw2neg"),]
+culture <- res[res$condition %in% c("Pax748h","Pax7GM", "Tw248h","Tw2GM"),]
+over <- res[res$condition %in% c("OverGFPDM", "OverGFPGM", "OverTw2DM", "OverTw2GM"),]
+
+p1 <- ggstripchart(culture, x="condition", y="count", ylab = "Normalized Expression") + rotate_x_text(45) + xlab("Cultured Cells") + ylim(c(0, max(culture$count) + 5))
+p1 <- ggpar(p1, legend = "none")
+
+p2 <- ggstripchart(fresh, x="condition", y="count", ylab = "Normalized Expression") + rotate_x_text(45) + xlab("Fresh-sorted Cells") + ylim(c(0, max(fresh$count) + 5))
+p2 <- ggpar(p2, legend = "none")
+
+p3 <- ggstripchart(over, x="condition", y="count", ylab="Normalized Expression") + rotate_x_text(45) + xlab("Overexpressing Cells") + ylim(c(0, max(over$count) + 5))
+p3 <- ggpar(p3, legend="none")
+
+figure <- ggarrange(p1, p2, p3, ncol=1, nrow=3)
+figure
+```
+
+
+## Atypical chemokine receptor 3, aka CXCR7 (*Ackr3*)
+
+
+```{r}
+#| echo: false
+#| fig-height: 9
+
+gene <- "Ackr3"
+
+res <- plotCounts(dds, gene, returnData=T)
+fresh <- res[res$condition %in% c("Pax7pos","Pax7neg","Tw2pos","Tw2neg"),]
+culture <- res[res$condition %in% c("Pax748h","Pax7GM", "Tw248h","Tw2GM"),]
+over <- res[res$condition %in% c("OverGFPDM", "OverGFPGM", "OverTw2DM", "OverTw2GM"),]
+
+p1 <- ggstripchart(culture, x="condition", y="count", ylab = "Normalized Expression") + rotate_x_text(45) + xlab("Cultured Cells") + ylim(c(0, max(culture$count) + 5))
+p1 <- ggpar(p1, legend = "none")
+
+p2 <- ggstripchart(fresh, x="condition", y="count", ylab = "Normalized Expression") + rotate_x_text(45) + xlab("Fresh-sorted Cells") + ylim(c(0, max(fresh$count) + 5))
+p2 <- ggpar(p2, legend = "none")
+
+p3 <- ggstripchart(over, x="condition", y="count", ylab="Normalized Expression") + rotate_x_text(45) + xlab("Overexpressing Cells") + ylim(c(0, max(over$count) + 5))
+p3 <- ggpar(p3, legend="none")
+
+figure <- ggarrange(p1, p2, p3, ncol=1, nrow=3)
+figure
+```
+
+
+## Frizzled-7 (*Fzd7*)
+
+
+```{r}
+#| echo: false
+#| fig-height: 9
+
+gene <- "Fzd7"
+
+res <- plotCounts(dds, gene, returnData=T)
+fresh <- res[res$condition %in% c("Pax7pos","Pax7neg","Tw2pos","Tw2neg"),]
+culture <- res[res$condition %in% c("Pax748h","Pax7GM", "Tw248h","Tw2GM"),]
+over <- res[res$condition %in% c("OverGFPDM", "OverGFPGM", "OverTw2DM", "OverTw2GM"),]
+
+p1 <- ggstripchart(culture, x="condition", y="count", ylab = "Normalized Expression") + rotate_x_text(45) + xlab("Cultured Cells") + ylim(c(0, max(culture$count) + 5))
+p1 <- ggpar(p1, legend = "none")
+
+p2 <- ggstripchart(fresh, x="condition", y="count", ylab = "Normalized Expression") + rotate_x_text(45) + xlab("Fresh-sorted Cells") + ylim(c(0, max(fresh$count) + 5))
+p2 <- ggpar(p2, legend = "none")
+
+p3 <- ggstripchart(over, x="condition", y="count", ylab="Normalized Expression") + rotate_x_text(45) + xlab("Overexpressing Cells") + ylim(c(0, max(over$count) + 5))
+p3 <- ggpar(p3, legend="none")
+
+figure <- ggarrange(p1, p2, p3, ncol=1, nrow=3)
+figure
+```
+
+
+## Frizzled-5 (*Fzd5*)
+
+
+```{r}
+#| echo: false
+#| fig-height: 9
+
+gene <- "Fzd5"
+
+res <- plotCounts(dds, gene, returnData=T)
+fresh <- res[res$condition %in% c("Pax7pos","Pax7neg","Tw2pos","Tw2neg"),]
+culture <- res[res$condition %in% c("Pax748h","Pax7GM", "Tw248h","Tw2GM"),]
+over <- res[res$condition %in% c("OverGFPDM", "OverGFPGM", "OverTw2DM", "OverTw2GM"),]
+
+p1 <- ggstripchart(culture, x="condition", y="count", ylab = "Normalized Expression") + rotate_x_text(45) + xlab("Cultured Cells") + ylim(c(0, max(culture$count) + 5))
+p1 <- ggpar(p1, legend = "none")
+
+p2 <- ggstripchart(fresh, x="condition", y="count", ylab = "Normalized Expression") + rotate_x_text(45) + xlab("Fresh-sorted Cells") + ylim(c(0, max(fresh$count) + 5))
+p2 <- ggpar(p2, legend = "none")
+
+p3 <- ggstripchart(over, x="condition", y="count", ylab="Normalized Expression") + rotate_x_text(45) + xlab("Overexpressing Cells") + ylim(c(0, max(over$count) + 5))
+p3 <- ggpar(p3, legend="none")
+
+figure <- ggarrange(p1, p2, p3, ncol=1, nrow=3)
+figure
+```
+
+
+## Bone morphogenic protein receptor 2 (*Bmpr2*)
+
+
+```{r}
+#| echo: false
+#| fig-height: 9
+
+gene <- "Bmpr2"
+
+res <- plotCounts(dds, gene, returnData=T)
+fresh <- res[res$condition %in% c("Pax7pos","Pax7neg","Tw2pos","Tw2neg"),]
+culture <- res[res$condition %in% c("Pax748h","Pax7GM", "Tw248h","Tw2GM"),]
+over <- res[res$condition %in% c("OverGFPDM", "OverGFPGM", "OverTw2DM", "OverTw2GM"),]
+
+p1 <- ggstripchart(culture, x="condition", y="count", ylab = "Normalized Expression") + rotate_x_text(45) + xlab("Cultured Cells") + ylim(c(0, max(culture$count) + 5))
+p1 <- ggpar(p1, legend = "none")
+
+p2 <- ggstripchart(fresh, x="condition", y="count", ylab = "Normalized Expression") + rotate_x_text(45) + xlab("Fresh-sorted Cells") + ylim(c(0, max(fresh$count) + 5))
+p2 <- ggpar(p2, legend = "none")
+
+p3 <- ggstripchart(over, x="condition", y="count", ylab="Normalized Expression") + rotate_x_text(45) + xlab("Overexpressing Cells") + ylim(c(0, max(over$count) + 5))
+p3 <- ggpar(p3, legend="none")
+
+figure <- ggarrange(p1, p2, p3, ncol=1, nrow=3)
+figure
+```
+
+
+## Interleukin 1 receptor type 1  (*Il1r1*)
+
+
+```{r}
+#| echo: false
+#| fig-height: 9
+
+gene <- "Il1r1"
+
+res <- plotCounts(dds, gene, returnData=T)
+fresh <- res[res$condition %in% c("Pax7pos","Pax7neg","Tw2pos","Tw2neg"),]
+culture <- res[res$condition %in% c("Pax748h","Pax7GM", "Tw248h","Tw2GM"),]
+over <- res[res$condition %in% c("OverGFPDM", "OverGFPGM", "OverTw2DM", "OverTw2GM"),]
+
+p1 <- ggstripchart(culture, x="condition", y="count", ylab = "Normalized Expression") + rotate_x_text(45) + xlab("Cultured Cells") + ylim(c(0, max(culture$count) + 5))
+p1 <- ggpar(p1, legend = "none")
+
+p2 <- ggstripchart(fresh, x="condition", y="count", ylab = "Normalized Expression") + rotate_x_text(45) + xlab("Fresh-sorted Cells") + ylim(c(0, max(fresh$count) + 5))
+p2 <- ggpar(p2, legend = "none")
+
+p3 <- ggstripchart(over, x="condition", y="count", ylab="Normalized Expression") + rotate_x_text(45) + xlab("Overexpressing Cells") + ylim(c(0, max(over$count) + 5))
+p3 <- ggpar(p3, legend="none")
+
+figure <- ggarrange(p1, p2, p3, ncol=1, nrow=3)
+figure
+```
+
+
+## Adiponectin receptor (*Adipor1*)
+
+
+```{r}
+#| echo: false
+#| fig-height: 9
+
+gene <- "Adipor1"
+
+res <- plotCounts(dds, gene, returnData=T)
+fresh <- res[res$condition %in% c("Pax7pos","Pax7neg","Tw2pos","Tw2neg"),]
+culture <- res[res$condition %in% c("Pax748h","Pax7GM", "Tw248h","Tw2GM"),]
+over <- res[res$condition %in% c("OverGFPDM", "OverGFPGM", "OverTw2DM", "OverTw2GM"),]
+
+p1 <- ggstripchart(culture, x="condition", y="count", ylab = "Normalized Expression") + rotate_x_text(45) + xlab("Cultured Cells") + ylim(c(0, max(culture$count) + 5))
+p1 <- ggpar(p1, legend = "none")
+
+p2 <- ggstripchart(fresh, x="condition", y="count", ylab = "Normalized Expression") + rotate_x_text(45) + xlab("Fresh-sorted Cells") + ylim(c(0, max(fresh$count) + 5))
+p2 <- ggpar(p2, legend = "none")
+
+p3 <- ggstripchart(over, x="condition", y="count", ylab="Normalized Expression") + rotate_x_text(45) + xlab("Overexpressing Cells") + ylim(c(0, max(over$count) + 5))
+p3 <- ggpar(p3, legend="none")
+
+figure <- ggarrange(p1, p2, p3, ncol=1, nrow=3)
+figure
+```
+
+
+## Decay-accelerating factor, Cd55 (*Cd55*)
+
+
+```{r}
+#| echo: false
+#| fig-height: 9
+
+gene <- "Cd55"
+
+res <- plotCounts(dds, gene, returnData=T)
+fresh <- res[res$condition %in% c("Pax7pos","Pax7neg","Tw2pos","Tw2neg"),]
+culture <- res[res$condition %in% c("Pax748h","Pax7GM", "Tw248h","Tw2GM"),]
+over <- res[res$condition %in% c("OverGFPDM", "OverGFPGM", "OverTw2DM", "OverTw2GM"),]
+
+p1 <- ggstripchart(culture, x="condition", y="count", ylab = "Normalized Expression") + rotate_x_text(45) + xlab("Cultured Cells") + ylim(c(0, max(culture$count) + 5))
+p1 <- ggpar(p1, legend = "none")
+
+p2 <- ggstripchart(fresh, x="condition", y="count", ylab = "Normalized Expression") + rotate_x_text(45) + xlab("Fresh-sorted Cells") + ylim(c(0, max(fresh$count) + 5))
+p2 <- ggpar(p2, legend = "none")
+
+p3 <- ggstripchart(over, x="condition", y="count", ylab="Normalized Expression") + rotate_x_text(45) + xlab("Overexpressing Cells") + ylim(c(0, max(over$count) + 5))
+p3 <- ggpar(p3, legend="none")
+
+figure <- ggarrange(p1, p2, p3, ncol=1, nrow=3)
+figure
+```
+
+
+## Interleukin 1 receptor type 2 (*Il1r2*)
+
+
+```{r}
+#| echo: false
+#| fig-height: 9
+
+gene <- "Il1r2"
+
+res <- plotCounts(dds, gene, returnData=T)
+fresh <- res[res$condition %in% c("Pax7pos","Pax7neg","Tw2pos","Tw2neg"),]
+culture <- res[res$condition %in% c("Pax748h","Pax7GM", "Tw248h","Tw2GM"),]
+over <- res[res$condition %in% c("OverGFPDM", "OverGFPGM", "OverTw2DM", "OverTw2GM"),]
+
+p1 <- ggstripchart(culture, x="condition", y="count", ylab = "Normalized Expression") + rotate_x_text(45) + xlab("Cultured Cells") + ylim(c(0, max(culture$count) + 5))
+p1 <- ggpar(p1, legend = "none")
+
+p2 <- ggstripchart(fresh, x="condition", y="count", ylab = "Normalized Expression") + rotate_x_text(45) + xlab("Fresh-sorted Cells") + ylim(c(0, max(fresh$count) + 5))
+p2 <- ggpar(p2, legend = "none")
+
+p3 <- ggstripchart(over, x="condition", y="count", ylab="Normalized Expression") + rotate_x_text(45) + xlab("Overexpressing Cells") + ylim(c(0, max(over$count) + 5))
+p3 <- ggpar(p3, legend="none")
+
+figure <- ggarrange(p1, p2, p3, ncol=1, nrow=3)
+figure
+```
+
+
+## Glypican 1 (*Gpc1*)
+
+
+```{r}
+#| echo: false
+#| fig-height: 9
+
+gene <- "Gpc1"
+
+res <- plotCounts(dds, gene, returnData=T)
+fresh <- res[res$condition %in% c("Pax7pos","Pax7neg","Tw2pos","Tw2neg"),]
+culture <- res[res$condition %in% c("Pax748h","Pax7GM", "Tw248h","Tw2GM"),]
+over <- res[res$condition %in% c("OverGFPDM", "OverGFPGM", "OverTw2DM", "OverTw2GM"),]
+
+p1 <- ggstripchart(culture, x="condition", y="count", ylab = "Normalized Expression") + rotate_x_text(45) + xlab("Cultured Cells") + ylim(c(0, max(culture$count) + 5))
+p1 <- ggpar(p1, legend = "none")
+
+p2 <- ggstripchart(fresh, x="condition", y="count", ylab = "Normalized Expression") + rotate_x_text(45) + xlab("Fresh-sorted Cells") + ylim(c(0, max(fresh$count) + 5))
+p2 <- ggpar(p2, legend = "none")
+
+p3 <- ggstripchart(over, x="condition", y="count", ylab="Normalized Expression") + rotate_x_text(45) + xlab("Overexpressing Cells") + ylim(c(0, max(over$count) + 5))
+p3 <- ggpar(p3, legend="none")
+
+figure <- ggarrange(p1, p2, p3, ncol=1, nrow=3)
+figure
+```
+
+```{r}
+#| echo: false
+res <- results(dds, name = "conditionTw2GM", lfcThreshold = 2.0, tidy = T)
+res_ordered <- res[order(res$pvalue),][1:500,]
+```
+
+```{r}
+#| echo: false
+matches_r <- res_ordered[res_ordered$row %in% receptors_vec_2,]
+matches_l <- res_ordered[res_ordered$row %in% ligands_vec_2,]
+```
+
+```{r}
+#| echo: false
+#| fig-height: 9
+
+gene <- "Alpl"
+
+res <- plotCounts(dds, gene, returnData=T)
+fresh <- res[res$condition %in% c("Pax7pos","Pax7neg","Tw2pos","Tw2neg"),]
+culture <- res[res$condition %in% c("Pax748h","Pax7GM", "Tw248h","Tw2GM"),]
+over <- res[res$condition %in% c("OverGFPDM", "OverGFPGM", "OverTw2DM", "OverTw2GM"),]
+
+p1 <- ggstripchart(culture, x="condition", y="count", ylab = "Normalized Expression") + rotate_x_text(45) + xlab("Cultured Cells") + ylim(c(0, max(culture$count) + 5))
+p1 <- ggpar(p1, legend = "none")
+
+p2 <- ggstripchart(fresh, x="condition", y="count", ylab = "Normalized Expression") + rotate_x_text(45) + xlab("Fresh-sorted Cells") + ylim(c(0, max(fresh$count) + 5))
+p2 <- ggpar(p2, legend = "none")
+
+p3 <- ggstripchart(over, x="condition", y="count", ylab="Normalized Expression") + rotate_x_text(45) + xlab("Overexpressing Cells") + ylim(c(0, max(over$count) + 5))
+p3 <- ggpar(p3, legend="none")
+
+figure <- ggarrange(p1, p2, p3, ncol=1, nrow=3)
+figure
+```
+
