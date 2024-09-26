@@ -35,7 +35,7 @@ a {
     font-weight: 300;
 }
 /* map */
-#map { height: 180px; }
+#map { height: 100px; }
 /* general
 ------------------------------------------- */
 hr.dashed {
