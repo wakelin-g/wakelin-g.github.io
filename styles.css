@@ -34,6 +34,8 @@ a {
     font-family: "Open Sans","Helvetica Neue","Helvetica",Arial,Verdana,sans-serif;
     font-weight: 300;
 }
+/* map */
+#map { height: 180px; }
 /* general
 ------------------------------------------- */
 hr.dashed {
