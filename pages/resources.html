@@ -5,19 +5,17 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="Griffen Wakelin" />
-    <meta name="description"
-        content="Adam Johnston lab at Dalhousie University's Department of Medical Neuroscience." />
-    <link rel="canonical" href="https://johnstonlab.ca" />
-    <title>Johnston Lab - Dalhousie University</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="bootstrap.min.css">
+    <meta name="description" content="" />
+    <title>Johnston Lab: Resources</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="../bootstrap.min.css">
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg bg-primary navbar-dark">
+    <nav class="navbar navbar-expand-md bg-primary navbar-dark">
         <!-- navbar-dark bg-dark -->
         <div class="container-md">
-            <a class="navbar-brand" href="index.html">Johnston Lab</a>
+            <a class="navbar-brand" href="../index.html">Johnston Lab</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -26,22 +24,22 @@
             <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="pages/research.html">Research</a>
+                        <a class="nav-link" href="research.html">Research</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="pages/people.html">People</a>
+                        <a class="nav-link" href="people.html">People</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="pages/publications.html">Publications</a>
+                        <a class="nav-link" href="publications.html">Publications</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="pages/funding.html">Funding</a>
+                        <a class="nav-link" href="funding.html">Funding</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="pages/contact.html">Contact</a>
+                        <a class="nav-link" href="contact.html">Contact</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="pages/resources.html">Resources</a>
+                        <a class="nav-link" href="resources.html">Resources</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="https://cs.dal.ca/~wakelin">Internal</a>
@@ -49,47 +47,32 @@
                 </ul>
             </div>
         </div>
-    </NAV>
+    </nav>
 
-    <main class="container-md">
-        <div class="p-5 txt-middle">
-            <h1>Welcome to the Johnston Lab</h1>
-            <p class="lead">
-                We study tissue regeneration and repair at Dalhousie
-                University's Department of Medical Neuroscience.
-            </p>
+    <div id="content">
+        <div class="container-md my-3">
+            <h2 class="h2 mb-3 fw-normal">Resources</h2>
         </div>
-
-        <div class="container-md">
-            <div class="container-md txt-middle b-auto">
-                <div class="row gx-5">
-                    <div class="col">
-                        <div class="p-3">
-                            <a href="pages/research.html">
-                                <img src="img/SkinWide_cropped.jpg" width="500" class="img-thumbnail" alt="" />
-                            </a>
-                            <h3>Research</h3>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="p-3">
-                            <a href="pages/people.html"><img src="img/LabSpace.jpg" width="500" class="img-thumbnail"
-                                    alt="" /></a>
-                            <h3>People</h3>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="p-3">
-                            <a href="pages/contact.html"><img src="img/LSRI.jpg" width="500" class="img-thumbnail"
-                                    alt="" /></a>
-                            <h3>Contact</h3>
-                        </div>
-                    </div>
-                </div>
+        <div class="container-md my-3">
+            <div class="row">
+                <a href="notebooks/PreparingData.html">Spinal Cord Data Preparation and Simple Processing
+                    Example</a>
+            </div>
+            <div class="row">
+                <a href="notebooks/DataLoading.html">Data Loading</a>
+            </div>
+            <div class="row">
+                <a href="notebooks/NCB2017_SMMC_genes.html">SMMC Genes in Twist2 NCB2017 bulk RNA-seq data</a>
+            </div>
+            <div class="row">
+                <a href="notebooks/Twist2_cell_number_old_vs_young.html">Tw2 young v. old</a>
+            </div>
+            <div class="row">
+                <a href="notebooks/qc_assess.html">CTX 7DPI and Uninjured scRNAseq QC Assessments</a>
             </div>
         </div>
+    </div>
 
-    </main>
     <div id="copyright">
         <div class="container-md">
             <div class="row align-items-center">
@@ -115,6 +98,9 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+        crossorigin="anonymous"></script>
     <script src="main.js"></script>
 </body>
 
